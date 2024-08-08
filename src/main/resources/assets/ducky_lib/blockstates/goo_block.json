@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ducky_lib:block/water"
+    }
+  }
+}
