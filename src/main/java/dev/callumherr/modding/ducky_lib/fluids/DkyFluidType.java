@@ -2,11 +2,12 @@ package dev.callumherr.modding.ducky_lib.fluids;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.callumherr.modding.ducky_lib.utils.Identifier;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +20,6 @@ import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class DkyFluidType extends FluidType {
     private final ResourceLocation stillTexture;
@@ -29,11 +29,12 @@ public class DkyFluidType extends FluidType {
     private final Vector3f fogColor;
     private final float fogStart;
     private final float fogEnd;
-    private final @Nullable MobEffectInstance entityEffect;
+    private final @Nullable Holder<MobEffect> entityEffect;
+    private final int amplifier;
     private final Map<Item, ItemStack> replacementItems;
 
     private DkyFluidType(final ResourceLocation stillTexture, final ResourceLocation flowingTexture, final ResourceLocation overlayTexture,
-                         final int tintColor, final Vector3f fogColor, float fogStart, float fogEnd, final Properties properties, @Nullable MobEffectInstance entityEffect, Map<Item, ItemStack> replacementItems) {
+                         final int tintColor, final Vector3f fogColor, float fogStart, float fogEnd, final Properties properties, @Nullable Holder<MobEffect> entityEffect, int amplifier, Map<Item, ItemStack> replacementItems) {
         super(properties);
         this.stillTexture = stillTexture;
         this.flowingTexture = flowingTexture;
@@ -43,6 +44,7 @@ public class DkyFluidType extends FluidType {
         this.fogStart = fogStart;
         this.fogEnd = fogEnd;
         this.entityEffect = entityEffect;
+        this.amplifier = amplifier;
         this.replacementItems = replacementItems;
     }
 
@@ -74,8 +76,9 @@ public class DkyFluidType extends FluidType {
         return fogEnd;
     }
 
-    public MobEffectInstance getEntityEffect() {
-        return entityEffect;
+    public @Nullable MobEffectInstance getEntityEffect() {
+        if (entityEffect == null) return null;
+        return new MobEffectInstance(entityEffect, 40, amplifier);
     }
 
     public @Nullable ItemStack getReplacementItem(Item item) {
@@ -127,7 +130,8 @@ public class DkyFluidType extends FluidType {
         private Properties properties;
         private float fogStart;
         private float fogEnd;
-        private @Nullable MobEffectInstance entityInstance;
+        private @Nullable Holder<MobEffect> entityEffect;
+        private int amplifier;
         private Map<Item, ItemStack> itemReplacements;
 
         /**
@@ -136,15 +140,16 @@ public class DkyFluidType extends FluidType {
          */
         public Builder(String name) {
             this.name = name;
-            this.stillTexture = Identifier.of("block/water_still");
-            this.flowingTexture = Identifier.of("block/water_flow");
-            this.overlayTexture = Identifier.of("block/water_overlay");
-            this.tintColor = 0xFFFFFF;
+            this.stillTexture = ResourceLocation.parse("block/water_still");
+            this.flowingTexture = ResourceLocation.parse("block/water_flow");
+            this.overlayTexture = ResourceLocation.parse("block/water_overlay");
+            this.tintColor = 0xA0F4F4F4;
             this.fogColor = new Vector3f(0, 0,0);
             this.properties = Properties.create();
             this.fogStart = 1f;
             this.fogEnd = 3f;
-            this.entityInstance = null;
+            this.entityEffect = null;
+            this.amplifier = 0;
             this.itemReplacements = new HashMap<>();
         }
 
@@ -234,12 +239,24 @@ public class DkyFluidType extends FluidType {
         }
 
         /**
-         * The effect instance that is applied to any entities in the fluid
-         * @param instance Effect instance to be applied
+         * Sets an effect to be applied to entities while they are in the fluid
+         * @param effect The MobEffect to apply
+         * @param amp the amplifier of the mob effect
          * @return this
          */
-        public Builder setEntityEffect(MobEffectInstance instance) {
-            this.entityInstance = instance;
+        public Builder setEntityEffect(Holder<MobEffect> effect, int amp) {
+            this.entityEffect = effect;
+            this.amplifier = amp;
+            return this;
+        }
+
+        /**
+         * Sets an effect, with an amplifier of 0, to be applied to entities while they are in the fluid
+         * @param effect the MobEffect to apply
+         * @return this
+         */
+        public Builder setEntityEffect(Holder<MobEffect> effect) {
+            this.entityEffect = effect;
             return this;
         }
 
@@ -278,7 +295,8 @@ public class DkyFluidType extends FluidType {
                     fogStart,
                     fogEnd,
                     properties,
-                    entityInstance,
+                    entityEffect,
+                    amplifier,
                     itemReplacements);
         }
     }

@@ -98,8 +98,8 @@ public class DuckyLib
             EntityRenderers.register(ModEntities.GOLEM.get(), GolemRenderer::new);
 
             event.enqueueWork(() -> {
-                ItemBlockRenderTypes.setRenderLayer(Fluids.GOOFLOWING.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(Fluids.GOOSTILL.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(Fluids.GOOFLOWING.get(), RenderType.TRANSLUCENT);
+                ItemBlockRenderTypes.setRenderLayer(Fluids.GOOSTILL.get(), RenderType.TRANSLUCENT);
             });
         }
 

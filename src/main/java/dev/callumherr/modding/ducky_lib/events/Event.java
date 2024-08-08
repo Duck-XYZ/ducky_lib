@@ -24,18 +24,15 @@ public class Event {
         FluidType fluid = entity.level().getFluidState(entity.blockPosition()).getFluidType();
         if (!(fluid instanceof DkyFluidType fluidType)) return;
 
-        if (entity instanceof Player player) {
+        if (entity instanceof Player player && fluidType.getEntityEffect() != null) {
             player.addEffect(fluidType.getEntityEffect());
+
         } else if (entity instanceof ItemEntity item) {
             ItemStack replacement = fluidType.getReplacementItem(item.getItem().getItem());
-            if (replacement != null) item.getItem().shrink(1);
-            EntityType.ITEM.spawn((ServerLevel) entity.level(),
-                    replacement,
-                    null,
-                    item.blockPosition(),
-                    MobSpawnType.CONVERSION,
-                    false,
-                    false);
+            if (replacement == null) return;
+
+            item.getItem().shrink(1);
+            entity.spawnAtLocation(replacement);
         }
     }
 }

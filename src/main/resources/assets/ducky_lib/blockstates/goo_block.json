@@ -3,5 +3,6 @@
     "": {
       "model": "ducky_lib:block/water"
     }
-  }
+  },
+  "render_type": "cutout"
 }

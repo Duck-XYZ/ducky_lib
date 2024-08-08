@@ -3,6 +3,7 @@ package dev.callumherr.modding.ducky_lib.fluids.test;
 import dev.callumherr.modding.ducky_lib.DuckyLib;
 import dev.callumherr.modding.ducky_lib.fluids.DkyFluidType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
@@ -21,9 +22,9 @@ public class FluidTypes {
 
     public static final DeferredHolder<FluidType, DkyFluidType> GOO =
             DkyFluidType.Builder.create("goo")
-                    .setEntityEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1))
+                    .setEntityEffect(MobEffects.DAMAGE_BOOST)
                     .addItemReplacement(Items.GOLD_INGOT, new ItemStack(Items.GOLD_BLOCK))
-                    .setFogColor(new Vector3f(224f / 255f, 56f / 255f, 208f / 255f))
+                    .setFogColor(new Vector3f(45f / 255f, 51f / 255f, 214f / 255f))
                     .buildHolder(TYPES);
 
     public static void register(IEventBus bus) {
