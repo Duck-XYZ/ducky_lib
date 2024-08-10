@@ -132,7 +132,7 @@ public class DkyFluidType extends FluidType {
         private float fogEnd;
         private @Nullable Holder<MobEffect> entityEffect;
         private int amplifier;
-        private Map<Item, ItemStack> itemReplacements;
+        private final Map<Item, ItemStack> itemReplacements;
 
         /**
          * Creates a new builder for a fluid type
