@@ -5,6 +5,7 @@ import dev.callumherr.modding.ducky_lib.entity.ModEntities;
 import dev.callumherr.modding.ducky_lib.entity.client.GolemRenderer;
 import dev.callumherr.modding.ducky_lib.entity.client.ModModelLayerThing;
 import dev.callumherr.modding.ducky_lib.entity.client.model.GolemModel;
+import dev.callumherr.modding.ducky_lib.fluids.DkyFluidType;
 import dev.callumherr.modding.ducky_lib.fluids.test.FluidTypes;
 import dev.callumherr.modding.ducky_lib.fluids.test.Fluids;
 import dev.callumherr.modding.ducky_lib.fluids.test.ModBlocks;
@@ -41,6 +42,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -90,7 +92,9 @@ public class DuckyLib
 
         @SubscribeEvent
         public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-            event.registerFluidType(FluidTypes.GOO.get().register(),  FluidTypes.GOO.get());
+            for (DeferredHolder<FluidType, DkyFluidType> fluid : DkyFluidType.registeredFluids) {
+                event.registerFluidType(fluid.get().register(), fluid.get());
+            };
         }
 
         @SubscribeEvent

@@ -31,8 +31,12 @@ public class Event {
             ItemStack replacement = fluidType.getReplacementItem(item.getItem().getItem());
             if (replacement == null) return;
 
-            item.getItem().shrink(1);
-            entity.spawnAtLocation(replacement);
+            int stackSize = item.getItem().getCount();
+            int replacementSize = replacement.getCount();
+
+            int countUsed = Math.min(stackSize, Math.floorDiv(64, replacementSize));
+            entity.spawnAtLocation(new ItemStack(replacement.getItem(), countUsed * replacementSize));
+            item.getItem().setCount(stackSize - countUsed);
         }
     }
 }

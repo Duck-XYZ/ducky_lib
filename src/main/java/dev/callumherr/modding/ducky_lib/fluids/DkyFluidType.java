@@ -18,10 +18,13 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DkyFluidType extends FluidType {
+    public static final List<DeferredHolder<FluidType, DkyFluidType>> registeredFluids = new ArrayList<>();
     private final ResourceLocation stillTexture;
     private final ResourceLocation flowingTexture;
     private final ResourceLocation overlayTexture;
@@ -277,13 +280,16 @@ public class DkyFluidType extends FluidType {
          * @return Holder for the fluid type
          */
         public DeferredHolder<FluidType, DkyFluidType> buildHolder(DeferredRegister<FluidType> deferredRegister) {
-            return deferredRegister.register(name, this::build);
+            DeferredHolder<FluidType, DkyFluidType> toReturn = deferredRegister.register(name, this::build);
+            registeredFluids.add(toReturn);
+            return toReturn;
         }
 
         /**
-         * Creates a new FluidType
+         * Creates a new FluidType, if using this method you will have to register the type in RegisterClientExtensionsEvent manually
          * @return the fluid type with the given parameters
-         * @see Builder#buildHolder(DeferredRegister) for registration
+         * @see Builder#buildHolder(DeferredRegister) for DeferredHolder creation
+         * @see net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent for registering properties
          */
         public DkyFluidType build() {
             return new DkyFluidType(
