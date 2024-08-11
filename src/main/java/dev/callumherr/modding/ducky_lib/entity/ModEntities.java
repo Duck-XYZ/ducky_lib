@@ -16,7 +16,7 @@ public class ModEntities {
 
     public static final DeferredHolder<EntityType<?>, EntityType<GolemEntity>> GOLEM = ENTITIES.register("golem",
             () -> EntityType.Builder.of(GolemEntity::new, MobCategory.CREATURE)
-                    .sized(0.8f, 2f).build("golem"));
+                    .sized(0.87f, 2.75f).build("golem"));
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
