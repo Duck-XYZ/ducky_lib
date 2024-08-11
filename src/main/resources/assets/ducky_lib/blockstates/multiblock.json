@@ -1,0 +1,38 @@
+{
+  "variants": {
+    "y=0": {
+      "model": "ducky_lib:block/multiblock_bottom"
+    },
+    "y=1,x=0,z=0": {
+      "model": "ducky_lib:block/multiblock_core"
+    },
+    "y=1,x=0,z=2": {
+      "model": "ducky_lib:block/multiblock_core"
+    },
+    "y=1,x=2,z=0": {
+      "model": "ducky_lib:block/multiblock_core"
+    },
+    "y=1,x=2,z=2": {
+      "model": "ducky_lib:block/multiblock_core"
+    },
+    "y=1,x=1,z=0": {
+      "model": "ducky_lib:block/multiblock_front_off"
+    },
+    "y=1,x=1,z=2": {
+      "model": "ducky_lib:block/multiblock_front_off"
+    },
+    "y=1,x=0,z=1": {
+      "model": "ducky_lib:block/multiblock_front_off"
+    },
+    "y=1,x=2,z=1": {
+      "model": "ducky_lib:block/multiblock_front_off"
+    },
+    "y=1,x=1,z=1": {
+      "model": "block/cobblestone"
+    },
+    "y=2": {
+      "model": "ducky_lib:block/multiblock_bottom",
+      "x": 180
+    }
+  }
+}

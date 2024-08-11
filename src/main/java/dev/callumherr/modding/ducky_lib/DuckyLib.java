@@ -8,43 +8,28 @@ import dev.callumherr.modding.ducky_lib.entity.client.model.GolemModel;
 import dev.callumherr.modding.ducky_lib.fluids.test.FluidTypes;
 import dev.callumherr.modding.ducky_lib.fluids.test.Fluids;
 import dev.callumherr.modding.ducky_lib.fluids.test.ModBlocks;
-import net.minecraft.client.Minecraft;
+import dev.callumherr.modding.ducky_lib.init.BlockEntityInit;
+import dev.callumherr.modding.ducky_lib.init.BlockInit;
+import dev.callumherr.modding.ducky_lib.init.ItemInit;
+import dev.callumherr.modding.ducky_lib.utils.Instances;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.common.CreativeModeTabRegistry;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -62,22 +47,27 @@ public class DuckyLib
     {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::addCreative);
 
+        NeoForge.EVENT_BUS.register(this);
         ModEntities.register(modEventBus);
         Fluids.register(modEventBus);
         FluidTypes.register(modEventBus);
-        ModBlocks.register(modEventBus);
+        ModBlocks.BLOCKS.register(modEventBus);
+        BlockInit.BLOCKS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
-        NeoForge.EVENT_BUS.register(this);
+        ItemInit.register(modEventBus);
+        BlockEntityInit.register(modEventBus);
+        Instances.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
     }
+    private void addCreative(final BuildCreativeModeTabContentsEvent event)
+    {
 
+    }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
