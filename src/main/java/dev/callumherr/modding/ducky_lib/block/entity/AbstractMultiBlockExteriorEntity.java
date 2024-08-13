@@ -1,5 +1,6 @@
 package dev.callumherr.modding.ducky_lib.block.entity;
 
+import dev.callumherr.modding.ducky_lib.block.AbstractMultiBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;

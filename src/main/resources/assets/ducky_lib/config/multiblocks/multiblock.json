@@ -1,0 +1,15 @@
+{
+  "name": "multiblock",
+  "size": [3, 3, 3],
+  "blocks": [
+    {"position": [0, 0, 0], "block": "minecraft:stone"},
+    {"position": [1, 0, 0], "block": "minecraft:stone"},
+    {"position": [2, 0, 0], "block": "minecraft:stone"},
+    {"position": [0, 1, 0], "block": "minecraft:stone"},
+    {"position": [1, 1, 0], "block": "minecraft:diamond_block"},
+    {"position": [2, 1, 0], "block": "minecraft:stone"},
+    {"position": [0, 2, 0], "block": "minecraft:stone"},
+    {"position": [1, 2, 0], "block": "minecraft:stone"},
+    {"position": [2, 2, 0], "block": "minecraft:stone"}
+  ]
+}

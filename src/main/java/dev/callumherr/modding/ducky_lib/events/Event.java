@@ -3,7 +3,9 @@ package dev.callumherr.modding.ducky_lib.events;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.callumherr.modding.ducky_lib.DuckyLib;
+import dev.callumherr.modding.ducky_lib.block.impl.Multiblock;
 import dev.callumherr.modding.ducky_lib.fluids.DkyFluidType;
+import dev.callumherr.modding.ducky_lib.gson.JsonLoader;
 import dev.callumherr.modding.ducky_lib.utils.debug.MultiBlockDebugRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -16,9 +18,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.fluids.FluidType;
 
@@ -63,13 +67,15 @@ public class Event {
     }
 
     @SubscribeEvent
-    public static void onRenderWorldLastEvent(RenderLevelStageEvent event) {
-        if (client.player != null) {
-            // If F3 debug screen is active, trigger the rendering
-            BlockPos playerPos = client.player.blockPosition();
-            PoseStack poseStack = event.getPoseStack();
-            //TODO::I thought with vertex consumer null it will work but no issues
-            //debugRenderer.render3x3Area(playerPos, poseStack);
-        }
+    public static void onPlayerPlaceBlock(BlockEvent.EntityPlaceEvent event)
+    {
+       Level world = event.getEntity().level();
+       BlockPos pos = event.getPos();
+
+       for (Multiblock multiblock : JsonLoader.loadMultiblocks(world)) {
+           if (multiblock.checkMultiblock(world, pos)) {
+               multiblock.onMultiblockFormed(world, pos);
+           }
+       }
     }
 }

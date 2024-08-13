@@ -1,4 +1,4 @@
-package dev.callumherr.modding.ducky_lib.block.entity;
+package dev.callumherr.modding.ducky_lib.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

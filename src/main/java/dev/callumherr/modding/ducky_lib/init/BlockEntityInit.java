@@ -1,17 +1,31 @@
 package dev.callumherr.modding.ducky_lib.init;
 
 import dev.callumherr.modding.ducky_lib.DuckyLib;
+import dev.callumherr.modding.ducky_lib.block.entity.TestBECore;
+import dev.callumherr.modding.ducky_lib.block.entity.TestBEExterior;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class BlockEntityInit
 {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, DuckyLib.MODID);
+            makeDeferredRegister(Registries.BLOCK_ENTITY_TYPE);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TestBECore>> CoreBlockEntityType;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TestBEExterior>> ExteriorBlockEntityType;
+
+    static
+    {
+        CoreBlockEntityType = BLOCK_ENTITIES.register("multiblock_core",
+                () -> BlockEntityType.Builder.of(TestBECore::new, BlockInit.TEST_BLOCK.get()).build(null));
+
+        ExteriorBlockEntityType = BLOCK_ENTITIES.register("multiblock_exterior",
+                () -> BlockEntityType.Builder.of(TestBEExterior::new, BlockInit.TEST_BLOCK.get()).build(null));
+    }
 
 
 
