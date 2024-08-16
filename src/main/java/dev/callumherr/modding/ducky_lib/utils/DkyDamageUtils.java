@@ -1,5 +1,6 @@
 package dev.callumherr.modding.ducky_lib.utils;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -9,43 +10,28 @@ import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
 
 public class DkyDamageUtils {
-    private static Registry<DamageType> damageTypes;
-
-    public static void init(RegistryAccess register) {
-        damageTypes = register.registryOrThrow(Registries.DAMAGE_TYPE);
+    public static DamageSource source(LevelReader level, ResourceKey<DamageType> damageType) {
+        return source(level, damageType, null, null, null);
     }
 
-    /**
-     * Gets a damage source from key
-     * @param damageType The damage type to get as a source
-     * @return Damage source corresponding to damage type
-     */
-    public static DamageSource source(ResourceKey<DamageType> damageType) {
-        return new DamageSource(damageTypes.getHolderOrThrow(damageType));
+    public static DamageSource source(LevelReader level, ResourceKey<DamageType> damageType, @Nullable Entity sourceEntity) {
+        return source(level, damageType, sourceEntity, null, null);
     }
 
-    /**
-     * Gets a damage source from key
-     * @param damageType The Damage type to get as a source
-     * @param sourceEntity The entity dealing the damage
-     * @return Damage source corresponding to Damage type
-     */
-    public static DamageSource source(ResourceKey<DamageType> damageType, @Nullable Entity sourceEntity) {
-        return new DamageSource(damageTypes.getHolderOrThrow(damageType), sourceEntity);
+
+    public static DamageSource source(LevelReader level, ResourceKey<DamageType> damageType, @Nullable Entity sourceEntity, @Nullable Entity targetEntity) {
+        return source(level, damageType, sourceEntity, targetEntity, null);
     }
 
-    /**
-     * Gets a damage source from key
-     * @param damageType The damage type to get as a source
-     * @param sourceEntity The entity dealing the damage
-     * @param targetEntity The entity taking damage
-     * @return Damage source corresponding to damage type
-     */
-    public static DamageSource source(ResourceKey<DamageType> damageType, @Nullable Entity sourceEntity, @Nullable Entity targetEntity) {
-        return new DamageSource(damageTypes.getHolderOrThrow(damageType), sourceEntity, targetEntity);
+
+    public static DamageSource source(LevelReader level, ResourceKey<DamageType> damageType, @Nullable Entity sourceEntity, @Nullable Entity targetEntity, @Nullable Vec3 damageSourcePos) {
+        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                .getHolderOrThrow(damageType), sourceEntity, targetEntity, damageSourcePos);
     }
 }

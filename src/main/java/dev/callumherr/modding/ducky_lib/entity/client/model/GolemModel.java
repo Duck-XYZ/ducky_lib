@@ -42,6 +42,5 @@ public class GolemModel<T extends Entity> extends HierarchicalModel<GolemEntity>
 
     @Override
     public void setupAnim(GolemEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.animate(entity.anim, GolemAnimations.ANIMATION, ageInTicks, 0.5f);
     }
 }
