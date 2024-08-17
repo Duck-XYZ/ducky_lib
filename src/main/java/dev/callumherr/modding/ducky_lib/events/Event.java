@@ -10,6 +10,7 @@ import dev.callumherr.modding.ducky_lib.utils.debug.MultiBlockDebugRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -67,15 +68,15 @@ public class Event {
     }
 
     @SubscribeEvent
-    public static void onPlayerPlaceBlock(BlockEvent.EntityPlaceEvent event)
-    {
-       Level world = event.getEntity().level();
-       BlockPos pos = event.getPos();
+    public static void onPlayerPlaceBlock(BlockEvent.EntityPlaceEvent event) {
+        Level world = event.getEntity().level();
+        BlockPos pos = event.getPos();
+        ResourceManager resourceManager = client.getResourceManager();
 
-       for (Multiblock multiblock : JsonLoader.loadMultiblocks(world)) {
-           if (multiblock.checkMultiblock(world, pos)) {
-               multiblock.onMultiblockFormed(world, pos);
-           }
-       }
+        for (Multiblock multiblock : JsonLoader.loadMultiblocks(world, resourceManager, DuckyLib.MODID)) {
+            if (multiblock.checkMultiblock(world, pos)) {
+                multiblock.onMultiblockFormed(world, pos);
+            }
+        }
     }
 }

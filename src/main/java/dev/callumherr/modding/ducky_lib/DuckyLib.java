@@ -8,6 +8,7 @@ import dev.callumherr.modding.ducky_lib.entity.client.model.GolemModel;
 import dev.callumherr.modding.ducky_lib.fluids.test.FluidTypes;
 import dev.callumherr.modding.ducky_lib.fluids.test.Fluids;
 import dev.callumherr.modding.ducky_lib.fluids.test.ModBlocks;
+import dev.callumherr.modding.ducky_lib.gson.JsonLoader;
 import dev.callumherr.modding.ducky_lib.init.BlockEntityInit;
 import dev.callumherr.modding.ducky_lib.init.BlockInit;
 import dev.callumherr.modding.ducky_lib.init.ItemInit;
@@ -25,6 +26,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.CreativeModeTabRegistry;
 import net.neoforged.neoforge.common.NeoForge;
@@ -48,14 +50,13 @@ public class DuckyLib
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
-
+        modEventBus.addListener(this::onResourceReload);
         NeoForge.EVENT_BUS.register(this);
         ModEntities.register(modEventBus);
         Fluids.register(modEventBus);
         FluidTypes.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         BlockInit.BLOCKS.register(modEventBus);
-
         ItemInit.register(modEventBus);
         BlockEntityInit.register(modEventBus);
         Instances.register();
@@ -67,6 +68,9 @@ public class DuckyLib
     private void addCreative(final BuildCreativeModeTabContentsEvent event)
     {
 
+    }
+    private void onResourceReload(final RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(new JsonLoader());
     }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
