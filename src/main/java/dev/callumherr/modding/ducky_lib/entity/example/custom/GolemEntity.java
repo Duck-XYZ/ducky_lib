@@ -1,4 +1,4 @@
-package dev.callumherr.modding.ducky_lib.entity.custom;
+package dev.callumherr.modding.ducky_lib.entity.example.custom;
 
 import dev.callumherr.modding.ducky_lib.entity.api.MultiPartEntity;
 import dev.callumherr.modding.ducky_lib.entity.api.MultiPartMonster;
@@ -11,15 +11,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class GolemEntity extends MultiPartMonster<MultiPartEntity<GolemEntity>> {
-    public final MultiPartEntity<GolemEntity> leftArm;
-    public final MultiPartEntity<GolemEntity> rightArm;
+    public MultiPartEntity<GolemEntity> leftArm;
+    public MultiPartEntity<GolemEntity> rightArm;
 
     public GolemEntity(EntityType<MultiPartMonster<?>> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @Override
+    protected MultiPartEntity<GolemEntity>[] createParts() {
         this.leftArm = new MultiPartEntity<>(this, 0.8f, 2.1f, 1.2f, 0.4f, 0f);
         this.rightArm = new MultiPartEntity<>(this, 0.8f, 2.1f, -1.2f, 0.4f, 0f);
-        this.parts = new MultiPartEntity[]{this.leftArm, this.rightArm};
-        registerParts();
+        return new MultiPartEntity[]{this.leftArm, this.rightArm};
     }
 
     @Override
@@ -37,10 +40,7 @@ public class GolemEntity extends MultiPartMonster<MultiPartEntity<GolemEntity>> 
 
     @Override
     public void tick() {
-        for (MultiPartEntity<?> part : parts) {
-            part.offsetFromParent();
-        }
+        resetPartOffsets();
         super.tick();
     }
-
 }

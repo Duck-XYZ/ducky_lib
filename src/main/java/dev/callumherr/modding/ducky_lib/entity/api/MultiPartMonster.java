@@ -10,24 +10,24 @@ public abstract class MultiPartMonster<T extends MultiPartEntity<?>> extends Mon
     public T[] parts; //Must be set in the constructor
 
     /**
-     * Basic constructor for a multipart entity make sure to set the parts property value. You must set the parts array filled with all parts.
+     * Basic constructor for a Monster
      * @param entityType Type of entity that this class corresponds to
      * @param level Game world
-     * @see MultiPartEntity All parts should extend this class
      */
     protected MultiPartMonster(EntityType<? extends MultiPartMonster<?>> entityType, Level level) {
         super(entityType, level);
+        this.parts = createParts();
+        registerParts();
     }
 
     /**
-     * Must be called after creating the parts array so that all the parts are assigned IDs
+     * Use this method to create all the parts and potentially assigning them to class properties if you wish to use them for damage amplifiers
+     * @return Array of all the parts this entity uses
      */
-    protected void registerParts() {
-        this.setId(ENTITY_COUNTER.getAndAdd(this.parts.length + 1) + 1);
-    }
+    protected abstract T[] createParts();
 
     /**
-     * Called when the hitbox of a part is hit
+     * Called when a part is hit, can be used to apply damage multipliers
      * @param part The part that was hit
      * @param source The source of the damage
      * @param damage the amount of damage dealt
@@ -75,9 +75,10 @@ public abstract class MultiPartMonster<T extends MultiPartEntity<?>> extends Mon
         return true;
     }
 
-    @Override
-    public void tick() {
-        //if (this.parts.length <= 0) throw new RuntimeException("Can't have a MultiPartMob with no parts.");
-        super.tick();
+    /**
+     * Called after creating the parts array so that all the parts are assigned IDs
+     */
+    private void registerParts() {
+        this.setId(ENTITY_COUNTER.getAndAdd(this.parts.length + 1) + 1);
     }
 }

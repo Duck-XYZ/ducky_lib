@@ -1,4 +1,4 @@
-package dev.callumherr.modding.ducky_lib.entity.client;
+package dev.callumherr.modding.ducky_lib.entity.example.client;
 
 import dev.callumherr.modding.ducky_lib.DuckyLib;
 import dev.callumherr.modding.ducky_lib.utils.Identifier;

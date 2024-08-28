@@ -24,6 +24,7 @@ public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
      * @param xOffset the offset from parent along x-axis
      * @param yOffset the offset from parent along y-axis
      * @param zOffset the offset from parent along z-axis
+     * @apiNote Where ever offset is used it assumes that the mob is facing the default direction when spawned. Mob rotating is handled by api.
      */
     public MultiPartEntity(@NotNull T parent, float width, float height, double xOffset, double yOffset, double zOffset) {
         super(parent);

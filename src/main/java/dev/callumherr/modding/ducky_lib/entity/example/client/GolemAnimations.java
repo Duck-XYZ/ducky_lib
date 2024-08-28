@@ -1,4 +1,4 @@
-package dev.callumherr.modding.ducky_lib.entity.client;
+package dev.callumherr.modding.ducky_lib.entity.example.client;
 
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;

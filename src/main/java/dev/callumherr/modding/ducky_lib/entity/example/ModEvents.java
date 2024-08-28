@@ -1,7 +1,6 @@
-package dev.callumherr.modding.ducky_lib.events;
+package dev.callumherr.modding.ducky_lib.entity.example;
 
 import dev.callumherr.modding.ducky_lib.DuckyLib;
-import dev.callumherr.modding.ducky_lib.entity.ModEntities;
 import net.minecraft.world.entity.animal.Sheep;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

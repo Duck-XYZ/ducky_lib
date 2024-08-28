@@ -1,15 +1,11 @@
-package dev.callumherr.modding.ducky_lib.entity.client.model;
+package dev.callumherr.modding.ducky_lib.entity.example.client.model;
 
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.callumherr.modding.ducky_lib.entity.client.GolemAnimations;
-import dev.callumherr.modding.ducky_lib.entity.custom.GolemEntity;
+import dev.callumherr.modding.ducky_lib.entity.example.custom.GolemEntity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 
 public class GolemModel<T extends Entity> extends HierarchicalModel<GolemEntity> {

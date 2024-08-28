@@ -1,8 +1,8 @@
-package dev.callumherr.modding.ducky_lib.entity;
+package dev.callumherr.modding.ducky_lib.entity.example;
 
 import dev.callumherr.modding.ducky_lib.DuckyLib;
 import dev.callumherr.modding.ducky_lib.entity.api.MultiPartMonster;
-import dev.callumherr.modding.ducky_lib.entity.custom.GolemEntity;
+import dev.callumherr.modding.ducky_lib.entity.example.custom.GolemEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
